@@ -1,7 +1,3 @@
-# Egg-Catcher
-A fun egg-catching arcade game built with Python and Pygame. 
-
-
 #  Egg Catcher
 
 A fun egg-catching arcade game built with Python and Pygame. Move your basket to catch falling eggs, earn points, and survive all 5 levels!
