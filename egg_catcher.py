@@ -143,4 +143,33 @@ class Particle:
         b = int(self.color[2] * alpha)
         pygame.draw.circle(surface, (r, g, b), (int(self.x), int(self.y)), 4)
  
- # ── Global basket Y                                    
+ # ── Global basket Y 
+
+ BASKET_Y = HEIGHT - 80 
+
+# ── Game states ───────────────────────────────────────────────────────────────
+STATE_MENU    = "menu"
+STATE_PLAYING = "playing"
+STATE_LEVEL_UP = "level_up"
+STATE_GAME_OVER = "game_over"
+STATE_WIN     = "win"
+
+# ── Main game ─────────────────────────────────────────────────────────────────
+def main():
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("🥚 Egg Catcher")
+    clock = pygame.time.Clock()
+ 
+    font_big   = pygame.font.SysFont("Arial", 52, bold=True)
+    font_med   = pygame.font.SysFont("Arial", 32, bold=True)
+    font_small = pygame.font.SysFont("Arial", 22)
+    font_tiny  = pygame.font.SysFont("Arial", 18)
+ 
+    def txt(text, font, color, cx, cy, shadow=True):
+        if shadow:
+            s = font.render(text, True, (0, 0, 0))
+            screen.blit(s, s.get_rect(center=(cx + 2, cy + 2)))
+        surf = font.render(text, True, color)
+        screen.blit(surf, surf.get_rect(center=(cx, cy)))
+
+
