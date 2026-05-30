@@ -118,4 +118,29 @@ class Egg:
                 abs(self.y - BASKET_Y) < EGG_RY + 10)
  
     def missed(self):
-        return self.y - EGG_RY > HEIGHT                                   
+        return self.y - EGG_RY > HEIGHT
+
+# ── Particle class ────────────────────────────────────────────────────────────
+class Particle:
+    def __init__(self, x, y, color):
+        self.x = x
+        self.y = y
+        self.color = color
+        self.vx = random.uniform(-3, 3)
+        self.vy = random.uniform(-5, -1)
+        self.life = 30
+ 
+    def update(self):
+        self.x += self.vx
+        self.y += self.vy
+        self.vy += 0.2
+        self.life -= 1
+ 
+    def draw(self, surface):
+        alpha = max(0, self.life / 30)
+        r = int(self.color[0] * alpha)
+        g = int(self.color[1] * alpha)
+        b = int(self.color[2] * alpha)
+        pygame.draw.circle(surface, (r, g, b), (int(self.x), int(self.y)), 4)
+ 
+ # ── Global basket Y                                    
