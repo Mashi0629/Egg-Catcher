@@ -59,5 +59,36 @@ def draw_egg(surface, x, y, color, shine=True):
     if shine:
         pygame.draw.ellipse(surface, (255, 255, 255, 180),
                             (x - EGG_RX + 5, y - EGG_RY + 5, 8, 6))
-                            
+
+
+def draw_basket(surface, x, y):
+    """Draw a simple basket shape."""
+    bx = x - BASKET_W // 2
+    # body
+    pts = [
+        (bx, y),
+        (bx + BASKET_W, y),
+        (bx + BASKET_W - 10, y + BASKET_H),
+        (bx + 10, y + BASKET_H),
+    ]
+    pygame.draw.polygon(surface, ORANGE, pts)
+    pygame.draw.polygon(surface, (200, 100, 0), pts, 3)
+    # rim
+    pygame.draw.rect(surface, YELLOW, (bx - 4, y - 6, BASKET_W + 8, 10), border_radius=5)
+    pygame.draw.rect(surface, GOLD,   (bx - 4, y - 6, BASKET_W + 8, 10), 2, border_radius=5)
+    # weave lines
+    for i in range(1, 4):
+        lx = bx + i * (BASKET_W // 4)
+        pygame.draw.line(surface, (180, 90, 0), (lx, y), (lx - 5, y + BASKET_H), 2)
+ 
+ 
+def draw_star(surface, cx, cy, r, color):
+    import math
+    pts = []
+    for i in range(10):
+        angle = math.radians(i * 36 - 90)
+        radius = r if i % 2 == 0 else r // 2
+        pts.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle)))
+    pygame.draw.polygon(surface, color, pts)
+    
                                        
