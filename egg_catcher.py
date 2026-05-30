@@ -36,3 +36,28 @@ MAX_LIVES = 5
 BASKET_W, BASKET_H = 100, 28
 EGG_RX, EGG_RY = 18, 22   # egg radii
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+def draw_gradient_bg(surface):
+    for y in range(HEIGHT):
+        t = y / HEIGHT
+        r = int(BG_TOP[0] + (BG_BOTTOM[0] - BG_TOP[0]) * t)
+        g = int(BG_TOP[1] + (BG_BOTTOM[1] - BG_TOP[1]) * t)
+        b = int(BG_TOP[2] + (BG_BOTTOM[2] - BG_TOP[2]) * t)
+        pygame.draw.line(surface, (r, g, b), (0, y), (WIDTH, y))
+ 
+ 
+def draw_egg(surface, x, y, color, shine=True):
+    """Draw a nice ellipse egg with a shine dot."""
+    pygame.draw.ellipse(surface, color,
+                        (x - EGG_RX, y - EGG_RY, EGG_RX * 2, EGG_RY * 2))
+
+
+
+    # dark outline
+    pygame.draw.ellipse(surface, (max(color[0]-60,0), max(color[1]-60,0), max(color[2]-60,0)),
+                        (x - EGG_RX, y - EGG_RY, EGG_RX * 2, EGG_RY * 2), 2)
+    if shine:
+        pygame.draw.ellipse(surface, (255, 255, 255, 180),
+                            (x - EGG_RX + 5, y - EGG_RY + 5, 8, 6))
+                            
+                                       
