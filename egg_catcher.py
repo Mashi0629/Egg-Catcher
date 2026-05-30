@@ -90,5 +90,32 @@ def draw_star(surface, cx, cy, r, color):
         radius = r if i % 2 == 0 else r // 2
         pts.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle)))
     pygame.draw.polygon(surface, color, pts)
-    
-                                       
+
+# ── Egg class ─────────────────────────────────────────────────────────────────
+EGG_COLOURS = [YELLOW, WHITE, GREEN, BLUE, PURPLE, RED, ORANGE]
+ 
+class Egg:
+    def __init__(self, speed):
+        self.x = random.randint(EGG_RX + 10, WIDTH - EGG_RX - 10)
+        self.y = -EGG_RY
+        self.speed = speed + random.uniform(-0.5, 0.5)
+        self.color = random.choice(EGG_COLOURS)
+        # golden egg: rare, worth 5 pts
+        self.golden = random.random() < 0.08
+        if self.golden:
+            self.color = GOLD
+    def update(self):
+        self.y += self.speed
+ 
+    def draw(self, surface):
+        draw_egg(surface, self.x, self.y, self.color)
+        if self.golden:
+            draw_star(surface, self.x, self.y - EGG_RY - 8, 6, GOLD)
+ 
+    def caught(self, bx):
+        """Returns True if the egg overlaps the basket top."""
+        return (abs(self.x - bx) < BASKET_W // 2 + EGG_RX - 5 and
+                abs(self.y - BASKET_Y) < EGG_RY + 10)
+ 
+    def missed(self):
+        return self.y - EGG_RY > HEIGHT                                   
