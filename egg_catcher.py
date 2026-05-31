@@ -219,4 +219,15 @@ def main():
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         g["state"] = STATE_PLAYING
 
-                        
+    # ── MENU ──────────────────────────────────────────────────────────────
+        if g["state"] == STATE_MENU:
+            txt("🥚 EGG CATCHER", font_big, YELLOW, WIDTH // 2, 160)
+            txt("Catch the falling eggs!", font_small, WHITE, WIDTH // 2, 240)
+            txt("← → Arrow Keys  to move basket", font_small, GRAY, WIDTH // 2, 290)
+            txt("Golden eggs  ★  are worth 5 pts!", font_small, GOLD, WIDTH // 2, 335)
+            txt(f"High Score: {high_score}", font_med, GREEN, WIDTH // 2, 400)
+
+            # blinking start prompt
+            if (pygame.time.get_ticks() // 500) % 2 == 0:
+                txt("Press SPACE to Start", font_med, WHITE, WIDTH // 2, 470)
+                                  
