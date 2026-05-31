@@ -197,4 +197,26 @@ def main():
         draw_gradient_bg(screen)
 
 
-        
+        # ── Events ────────────────────────────────────────────────────────────
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+ 
+                if g["state"] == STATE_MENU:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        g["state"] = STATE_PLAYING
+ 
+                elif g["state"] in (STATE_GAME_OVER, STATE_WIN):
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        high_score = max(high_score, g["score"])
+                        g = reset_game()
+                        g["state"] = STATE_MENU
+ 
+                elif g["state"] == STATE_LEVEL_UP:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        g["state"] = STATE_PLAYING
+
+                        
