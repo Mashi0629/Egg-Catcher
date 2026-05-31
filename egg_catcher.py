@@ -173,3 +173,28 @@ def main():
         screen.blit(surf, surf.get_rect(center=(cx, cy)))
 
 
+    # ── Game variables ────────────────────────────────────────────────────────
+    def reset_game():
+        return {
+            "state": STATE_MENU,
+            "score": 0,
+            "lives": MAX_LIVES,
+            "level": 1,
+            "eggs_caught": 0,
+            "basket_x": WIDTH // 2,
+            "eggs": [],
+            "particles": [],
+            "spawn_timer": 0,
+            "flash": 0,
+            "high_score": 0,
+        }
+    g = reset_game()
+    high_score = 0
+ 
+    running = True
+    while running:
+        clock.tick(FPS)
+        draw_gradient_bg(screen)
+
+
+        
