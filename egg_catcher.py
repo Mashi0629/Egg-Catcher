@@ -248,3 +248,40 @@ def main():
             if keys[pygame.K_RIGHT]:
                 g["basket_x"] = min(WIDTH - BASKET_W // 2 - 4, g["basket_x"] + speed_px)
  
+             # Spawn eggs
+            g["spawn_timer"] += 1
+            if g["spawn_timer"] >= cfg["spawn_rate"]:
+                g["spawn_timer"] = 0
+                g["eggs"].append(Egg(cfg["speed"]))
+ 
+            # Update eggs
+            caught_this_frame = []
+            missed_this_frame = []
+            for egg in g["eggs"]:
+                egg.update()
+                if egg.caught(g["basket_x"]):
+                    caught_this_frame.append(egg)
+                elif egg.missed():
+                    missed_this_frame.append(egg)
+ 
+            for egg in caught_this_frame:
+                g["eggs"].remove(egg)
+                pts = 5 if egg.golden else 1
+                g["score"] += pts
+                g["eggs_caught"] += pts if not egg.golden else 5
+                g["flash"] = 8
+                for _ in range(12):
+                    g["particles"].append(Particle(egg.x, BASKET_Y, egg.color))
+ 
+            for egg in missed_this_frame:
+                g["eggs"].remove(egg)
+                g["lives"] -= 1
+                g["flash"] = -8   # red flash
+                for _ in range(8):
+                    g["particles"].append(Particle(egg.x, HEIGHT - 5, RED))
+ 
+            # Particles
+            g["particles"] = [p for p in g["particles"] if p.life > 0]
+            for p in g["particles"]:
+                p.update()
+                p.draw(screen)
