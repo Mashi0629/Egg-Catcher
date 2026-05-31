@@ -285,3 +285,36 @@ def main():
             for p in g["particles"]:
                 p.update()
                 p.draw(screen)
+
+            # Level up check
+            if g["eggs_caught"] >= cfg["eggs_to_next"]:
+                g["eggs_caught"] = 0
+                g["eggs"] = []
+                if g["level"] >= MAX_LEVEL:
+                    g["state"] = STATE_WIN
+                else:
+                    g["level"] += 1
+                    g["state"] = STATE_LEVEL_UP
+
+                        # Lives check
+            if g["lives"] <= 0:
+                g["state"] = STATE_GAME_OVER
+ 
+            # Draw eggs
+            for egg in g["eggs"]:
+                egg.draw(screen)
+ 
+            # Draw basket
+            draw_basket(screen, g["basket_x"], BASKET_Y)
+ 
+            # Flash overlay
+            if g["flash"] > 0:
+                overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                overlay.fill((255, 255, 100, int(80 * g["flash"] / 8)))
+                screen.blit(overlay, (0, 0))
+                g["flash"] -= 1
+            elif g["flash"] < 0:
+                overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                overlay.fill((255, 50, 50, int(80 * abs(g["flash"]) / 8)))
+                screen.blit(overlay, (0, 0))
+                g["flash"] += 1
