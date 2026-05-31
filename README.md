@@ -59,7 +59,7 @@ pip install pygame
 ### Run the Game
 
 ```bash
-pip install pygame
+
 python egg_catcher.py
 ```
 
