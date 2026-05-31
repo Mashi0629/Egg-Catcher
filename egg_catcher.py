@@ -197,7 +197,7 @@ def main():
         draw_gradient_bg(screen)
 
 
-        # ── Events ────────────────────────────────────────────────────────────
+# ── Events ────────────────────────────────────────────────────────────
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -219,7 +219,7 @@ def main():
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         g["state"] = STATE_PLAYING
 
-    # ── MENU ──────────────────────────────────────────────────────────────
+# ── MENU ──────────────────────────────────────────────────────────────
         if g["state"] == STATE_MENU:
             txt("🥚 EGG CATCHER", font_big, YELLOW, WIDTH // 2, 160)
             txt("Catch the falling eggs!", font_small, WHITE, WIDTH // 2, 240)
@@ -227,7 +227,24 @@ def main():
             txt("Golden eggs  ★  are worth 5 pts!", font_small, GOLD, WIDTH // 2, 335)
             txt(f"High Score: {high_score}", font_med, GREEN, WIDTH // 2, 400)
 
-            # blinking start prompt
+# blinking start prompt
             if (pygame.time.get_ticks() // 500) % 2 == 0:
                 txt("Press SPACE to Start", font_med, WHITE, WIDTH // 2, 470)
-                                  
+
+# draw demo eggs
+            for i, col in enumerate([YELLOW, WHITE, GREEN, BLUE, PURPLE]):
+                draw_egg(screen, 80 + i * 110, 570, col)
+            draw_basket(screen, WIDTH // 2, 620)                  
+
+        # ── PLAYING ───────────────────────────────────────────────────────────
+        elif g["state"] == STATE_PLAYING:
+            cfg = LEVEL_SETTINGS[g["level"]]
+ 
+            # Basket movement
+            keys = pygame.key.get_pressed()
+            speed_px = 7
+            if keys[pygame.K_LEFT]:
+                g["basket_x"] = max(BASKET_W // 2 + 4, g["basket_x"] - speed_px)
+            if keys[pygame.K_RIGHT]:
+                g["basket_x"] = min(WIDTH - BASKET_W // 2 - 4, g["basket_x"] + speed_px)
+ 
