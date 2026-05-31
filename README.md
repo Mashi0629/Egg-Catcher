@@ -106,7 +106,8 @@ Pull requests are welcome! Feel free to:
 
 
 
-This project is open source and available under the [MIT License](LICENSE).
+<img width="602" height="732" alt="image" src="https://github.com/user-attachments/assets/4e36e4dd-a9da-48f2-bf9e-070c9bb3f9b5" />
+
 
 ---
 
