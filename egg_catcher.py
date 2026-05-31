@@ -318,3 +318,60 @@ def main():
                 overlay.fill((255, 50, 50, int(80 * abs(g["flash"]) / 8)))
                 screen.blit(overlay, (0, 0))
                 g["flash"] += 1
+
+
+                            # HUD
+            pygame.draw.rect(screen, DARK, (0, 0, WIDTH, 55))
+            pygame.draw.line(screen, ORANGE, (0, 55), (WIDTH, 55), 2)
+ 
+            txt(f"Score: {g['score']}", font_med, WHITE, 90, 28)
+            txt(f"Level {g['level']} — {cfg['label']}", font_med, YELLOW, WIDTH // 2, 28)
+ 
+            # Lives hearts
+            for i in range(MAX_LIVES):
+                col = RED if i < g["lives"] else GRAY
+                pygame.draw.circle(screen, col, (WIDTH - 30 - i * 30, 28), 10)
+ 
+            # Progress bar
+            prog = g["eggs_caught"] / cfg["eggs_to_next"]
+            bar_w = 200
+            pygame.draw.rect(screen, GRAY, (WIDTH // 2 - bar_w // 2, 58, bar_w, 8), border_radius=4)
+            pygame.draw.rect(screen, GREEN, (WIDTH // 2 - bar_w // 2, 58, int(bar_w * prog), 8), border_radius=4)
+ 
+            txt("ESC to quit", font_tiny, GRAY, WIDTH - 55, HEIGHT - 20)
+ 
+        # ── LEVEL UP ──────────────────────────────────────────────────────────
+        elif g["state"] == STATE_LEVEL_UP:
+            cfg = LEVEL_SETTINGS[g["level"]]
+            txt(f"LEVEL {g['level']}!", font_big, YELLOW, WIDTH // 2, 250)
+            txt(cfg["label"], font_med, ORANGE, WIDTH // 2, 320)
+            txt(f"Score so far: {g['score']}", font_med, WHITE, WIDTH // 2, 390)
+            txt(f"Speed ↑  Catch {cfg['eggs_to_next']} more eggs", font_small, GREEN, WIDTH // 2, 450)
+            if (pygame.time.get_ticks() // 500) % 2 == 0:
+                txt("Press SPACE to continue", font_med, WHITE, WIDTH // 2, 530)
+ 
+        # ── GAME OVER ─────────────────────────────────────────────────────────
+        elif g["state"] == STATE_GAME_OVER:
+            txt("GAME OVER", font_big, RED, WIDTH // 2, 240)
+            txt(f"Final Score: {g['score']}", font_med, WHITE, WIDTH // 2, 330)
+            txt(f"High Score:  {max(high_score, g['score'])}", font_med, GOLD, WIDTH // 2, 390)
+            if (pygame.time.get_ticks() // 500) % 2 == 0:
+                txt("Press SPACE to play again", font_med, WHITE, WIDTH // 2, 480)
+ 
+        # ── WIN ───────────────────────────────────────────────────────────────
+        elif g["state"] == STATE_WIN:
+            txt("YOU WIN! 🎉", font_big, GREEN, WIDTH // 2, 220)
+            txt("All 5 levels cleared!", font_med, YELLOW, WIDTH // 2, 310)
+            txt(f"Final Score: {g['score']}", font_med, WHITE, WIDTH // 2, 380)
+            txt(f"High Score:  {max(high_score, g['score'])}", font_med, GOLD, WIDTH // 2, 440)
+            if (pygame.time.get_ticks() // 500) % 2 == 0:
+                txt("Press SPACE to play again", font_med, WHITE, WIDTH // 2, 530)
+ 
+        pygame.display.flip()
+ 
+    pygame.quit()
+    sys.exit()
+ 
+ 
+if __name__ == "__main__":
+    main()
